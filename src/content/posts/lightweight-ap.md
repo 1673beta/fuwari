@@ -4,7 +4,7 @@ published: 2024-10-11
 description: お好み
 tags: [Fediverse, docker, ActivityPub, Go, Rust, Hollo]
 category: 技術
-draft: true
+draft: false
 ---
 
 [この前](https://blog.esurio1673.net/posts/hollo/)軽量なActivityPub実装であるHolloを建てた。  
