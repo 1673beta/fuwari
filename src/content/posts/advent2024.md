@@ -4,7 +4,7 @@ published: 2024-12-12
 description: お好み
 tags: [Fediverse, notectl]
 category: その他
-draft: publish
+draft: false
 ---
 
 この記事は、[Fediverse Advent Calender 2024](https://adventar.org/calendars/10051)の12日目です。
