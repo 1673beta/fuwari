@@ -1,7 +1,7 @@
 ---
 title: Misskey管理者向けCLIツールnotectlを作った
 published: 2024-12-12
-description: お好み
+description: Misskey版tootctl
 tags: [Fediverse, notectl, Rust]
 category: その他
 draft: false
