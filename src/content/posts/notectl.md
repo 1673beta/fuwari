@@ -8,6 +8,7 @@ draft: false
 ---
 
 タイトル通り、Misskey管理者向けCLIツールのnotectlを作って公開してる、という記事。  
+リポジトリ: https://github.com/1673beta/notectl
 
 ## できること
 - webpushの公開鍵と秘密鍵を生成できる
