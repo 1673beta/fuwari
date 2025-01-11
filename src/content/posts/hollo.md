@@ -7,6 +7,11 @@ category: 技術
 draft: false
 ---
 
+:::caution
+この記事はHollo 0.1.0時点の記事であり、古い内容が含まれています。  
+最新の情報は必ずドキュメントを参照してください。
+:::
+
 おひとり様向けActivityPub実装のHolloを自宅に建てたので備忘録。
 
 # Holloとは
@@ -14,6 +19,10 @@ draft: false
 FedifyはDenoで作成されたActivityPubフレームワークで、Deno以外にもBunやNode.jsでも利用することができる。  
 CLIも独立してインストールすることができる。  
 Holloのドキュメントはここ：https://docs.hollo.social
+
+:::important
+2025年1月11日追記: この記事はHollo 0.1.0時に執筆されたもので、現在はBunではなくNode.jsを使用しています。
+:::
 
 # 方法
 例によってCloudflare Tunnelを経由して外部と通信する。  
@@ -26,6 +35,9 @@ cp .env.sample .env
 ```
 次のように`.env`を編集する。
 `BEHIND_PROXY=true`にしないとCloudflare Tunnel環境下でフォローができないなどの不具合があるので気をつけること。
+:::warning
+2025年1月11日追記: 現在はRedisを使用しないため、REDIS_URLは不要です。
+:::
 ```env
 DATABASE_URL=postgresql://user:password@localhost:5432/dbname
 REDIS_URL=redis://localhost/0
@@ -38,6 +50,10 @@ BEHIND_PROXY=true
 続いてcompose.yamlを編集する。
 今回はCloudflare Tunnelを使うのでtunnelの部分を書き加える。
 
+:::warning
+2025年1月11日修正: Redisを必要としないためコメントアウト
+:::
+
 ```yml
 services:
   hollo:
@@ -47,7 +63,7 @@ services:
     environment:
       DATABASE_URL: "postgres://user:password@postgres:5432/database"
       REDIS_URL: "redis://redis:6379/0"
-      SECRET_KEY: "740cf60ada6309d6971720a66437f9e23e82a7323e1767ef96e1ed7064bda9c4"
+      SECRET_KEY: "do openssl rand -hex 32"
       LOG_LEVEL: "info"
       BEHIND_PROXY: "false"
       S3_REGION: us-east-1
@@ -59,13 +75,13 @@ services:
       AWS_SECRET_ACCESS_KEY: minioadmin
     depends_on:
     - postgres
-    - redis
+    # - redis
     - minio
     - create-bucket
     restart: unless-stopped
 
   postgres:
-    image: postgres:15
+    image: postgres:17
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
@@ -74,9 +90,9 @@ services:
     - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
 
-  redis:
-    image: redis:7
-    restart: unless-stopped
+  #redis:
+  #  image: redis:7
+  #  restart: unless-stopped
 
   minio:
     image: minio/minio:RELEASE.2024-09-13T20-26-02Z
@@ -125,6 +141,11 @@ Mastodon API互換ではあるので多くのクライアントで動くが、�
 Elkでも動くが、絵文字リアクションに対応していないので通知画面でエラーが表示されることがある。  
 
 # 感想
+:::note
+2025年1月11日現在、対応しているクライアントではカスタム絵文字リアクションの送受信が可能です。
+使用可能なクライアントについては[こちら](https://docs.hollo.social/ja/clients/)を参照してください。
+:::
+
 非常に軽量でシンプルなため、「おひとり様が欲しい！でもサーバーのスペックが足りない！or 低い！」という人向けにかなりおすすめできる。  
 おひとり様MastodonやMisskeyは管理コストが負担になることもあるので、その辺りを割り切っているHolloは、維持管理に疲れた、という人にもいいかもしれない。  
 Misskey系の絵文字リアクションにはまだ非対応なようだが、Fedify側で対応するようなのでそのうち追加されることが期待できる。  
