@@ -28,8 +28,12 @@ Holloのドキュメントはここ：https://docs.hollo.social
 例によってCloudflare Tunnelを経由して外部と通信する。  
 今回は~~systemd派を名乗っているにも関わらず~~Docker Composeを使用する。
 
+:::warn
+2025年1月29日修正: リポジトリのURLを修正
+:::
+
 ```bash
-git clone https://github.com/dahlia/hollo.git
+git clone https://github.com/fedify-dev/hollo.git
 cd hollo
 cp .env.sample .env
 ```
@@ -52,12 +56,13 @@ BEHIND_PROXY=true
 
 :::warning
 2025年1月11日修正: Redisを必要としないためコメントアウト
+2025年1月29日修正: リポジトリがdahlia/holloからfedify-dev/holloに
 :::
 
 ```yml
 services:
   hollo:
-    image: ghcr.io/dahlia/hollo:latest
+    image: ghcr.io/fedify-dev/hollo:latest
     ports:
     - 3033:3000
     environment:
